@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Docente - ClassLab v1.0</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-light: #1a5276;
+            --secondary: #e67e22;
+            --accent: #3498db;
+            --success: #27ae60;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --light-bg: #f0f4f8;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+            --border: #e1e8ed;
+            --shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            z-index: 10000;
+            transition: width 0.3s;
+        }
+
+        /* Navegación Lateral Mejorada */
+        .sidebar {
+            width: 320px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            padding: 0;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            background: rgba(0,0,0,0.2);
+            text-align: center;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: var(--secondary);
+        }
+
+        .sidebar-header i {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        .search-box {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.9);
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 0 3px var(--secondary);
+        }
+
+        .sidebar nav {
+            padding: 10px 0;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            color: #ecf0f1;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(255,255,255,0.15);
+            border-left-color: var(--secondary);
+            padding-left: 30px;
+        }
+
+        .sidebar a.active {
+            background: rgba(230, 126, 34, 0.3);
+            font-weight: 600;
+        }
+
+        /* Toggle Button Mobile */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        /* Header Hero */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-hover);
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 10px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Cards de Sección */
+        section {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            scroll-margin-top: 20px;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        h2 { 
+            color: var(--primary); 
+            border-left: 5px solid var(--secondary); 
+            padding-left: 20px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 i {
+            color: var(--secondary);
+        }
+
+        h3 { 
+            color: var(--primary-light); 
+            margin: 30px 0 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Espacios para Imágenes Mejorados */
+        .image-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px dashed var(--accent);
+            border-radius: 12px;
+            padding: 50px 30px;
+            margin: 30px 0;
+            text-align: center;
+            color: var(--text-light);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container:hover {
+            border-color: var(--secondary);
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .image-container i { 
+            font-size: 4rem; 
+            margin-bottom: 15px; 
+            display: block;
+            color: var(--accent);
+            transition: transform 0.3s;
+        }
+
+        .image-container:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .image-placeholder-text {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* Estilo para imágenes reales */
+        .actual-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow-hover);
+            margin: 20px auto;
+            display: block;
+        }
+
+        /* Tablas Interactivas */
+        .table-responsive { 
+            overflow-x: auto; 
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td { 
+            border: none;
+            padding: 15px; 
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th { 
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr {
+            transition: background 0.2s;
+        }
+
+        tr:hover { 
+            background: #f8f9fa; 
+        }
+
+        tr:nth-child(even) { 
+            background: #fafbfc; 
+        }
+
+        /* Estilo de los 5 Momentos - Cards Interactivas */
+        .momentos-grid {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .momento-card {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            align-items: flex-start;
+            background: white;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .momento-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: var(--secondary);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .momento-card:hover {
+            border-color: var(--accent);
+            transform: translateX(10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .momento-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .momento-number {
+            background: linear-gradient(135deg, var(--secondary), #f39c12);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px rgba(230, 126, 34, 0.3);
+        }
+
+        .momento-content h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .momento-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Alertas y Notas Mejoradas */
+        .info-box {
+            background: linear-gradient(135deg, #e7f3ff 0%, #d4e9ff 100%);
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .info-box i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-top: 3px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border-left-color: var(--warning);
+        }
+
+        .warning-box i {
+            color: var(--warning);
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: var(--success);
+        }
+
+        .success-box i {
+            color: var(--success);
+        }
+
+        /* Video Wrapper */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 30px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .video-wrapper iframe {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            border: none;
+        }
+
+        /* Accordion Interactivo */
+        .accordion {
+            margin: 25px 0;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+
+        .accordion-header i {
+            transition: transform 0.3s;
+            color: var(--secondary);
+        }
+
+        .accordion-item.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 25px;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+            padding: 20px 25px;
+        }
+
+        /* Tags/Badges */
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 3px;
+        }
+
+        .tag-conocimiento { background: #e3f2fd; color: #1976d2; }
+        .tag-aplicacion { background: #e8f5e9; color: #388e3c; }
+        .tag-analisis { background: #fff3e0; color: #f57c00; }
+        .tag-sintesis { background: #f3e5f5; color: #7b1fa2; }
+        .tag-evaluacion { background: #ffebee; color: #d32f2f; }
+
+        /* Lista Mejorada */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0 12px 35px;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--secondary), #f39c12);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(230, 126, 34, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(230, 126, 34, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-hover);
+            z-index: 999;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 80px 20px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 25px 20px;
+            }
+            
+            .momento-card {
+                flex-direction: column;
+            }
+            
+            .momento-number {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Highlight search */
+        .highlight {
+            background: yellow;
+            padding: 2px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Menu Toggle Mobile -->
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navegación Lateral -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>ClassLab</h2>
+            <p style="font-size: 0.85rem; opacity: 0.9;">Guía para Docentes v1.0</p>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar en la guía..." onkeyup="searchContent()">
+        </div>
+        
+        <nav>
+            <a href="#inicio" class="active"><i class="fas fa-home"></i> Inicio</a>
+            <a href="#introduccion"><i class="fas fa-info-circle"></i> 1. Introducción</a>
+            <a href="#funcionamiento"><i class="fas fa-cogs"></i> 2. Cómo funciona</a>
+            <a href="#objetivos"><i class="fas fa-bullseye"></i> 3. Objetivos</a>
+            <a href="#resultados"><i class="fas fa-trophy"></i> 4. Resultados Aprendizaje</a>
+            <a href="#orientaciones"><i class="fas fa-chalkboard-teacher"></i> 5. Orientaciones</a>
+            <a href="#integracion"><i class="fas fa-link"></i> 6. Integración</a>
+            <a href="#retroalimentacion"><i class="fas fa-comments"></i> 7. Retroalimentación</a>
+            <a href="#preguntas"><i class="fas fa-question-circle"></i> 8. Banco de Preguntas</a>
+            <a href="#dashboard"><i class="fas fa-chart-line"></i> 9. Dashboard</a>
+            <a href="#especiales"><i class="fas fa-exclamation-triangle"></i> 10. Situaciones Especiales</a>
+            <a href="#glosario"><i class="fas fa-book"></i> 11. Glosario</a>
+            <a href="#referencias"><i class="fas fa-bookmark"></i> 12. Referencias</a>
+        </nav>
+    </nav>
+
+    <div class="main-content">
+        <header id="inicio">
+            <h1><i class="fas fa-robot"></i> ClassLab</h1>
+            <p class="subtitle">Simulador de Prácticas Educativas y Pedagógicas con IA</p>
+            <span class="badge"><i class="fas fa-flask"></i> VERSION 1.0 - FASE PILOTO</span>
+            <p style="margin-top: 25px; font-size: 1.1rem;"><strong>Acompañamiento pedagógico para docentes tutores</strong><br>UNIMINUTO 2026</p>
+            <a href="#introduccion" class="btn" style="margin-top: 20px;">
+                <i class="fas fa-arrow-down"></i> Comenzar a explorar
+            </a>
+        </header>
+
+        <section id="introduccion">
+            <h2><i class="fas fa-info-circle"></i> 1. Introducción</h2>
+            <p>ClassLab es un simulador desarrollado por UNIMINUTO para que el estudiante pueda vivir, reflexionar y mejorar su práctica pedagógica en un entorno seguro. Actualmente se encuentra en su <strong>Versión 1.0 de pilotaje</strong>.</p>
+            
+           
+            <div class="info-box success-box">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <strong>¿Qué puede hacer ClassLab HOY?</strong>
+                    <ul class="feature-list" style="margin-top: 10px;">
+                        <li>Selección de niveles: preescolar, primaria o secundaria</li>
+                        <li>Planeación básica: objetivo, actividades y recursos</li>
+                        <li>Aula virtual simulada con estudiantes IA</li>
+                        <li>Retroalimentación personalizada (Fernando Mejia / Director)</li>
+                        <li>Dashboard de progreso para el docente</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box warning-box">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <strong>Importante:</strong> Su valor actual NO está en la perfección tecnológica, sino en las decisiones y aportes de quienes la usan. Es una herramienta en construcción donde los estudiantes son co-constructores.
+                </div>
+            </div>
+        </section>
+
+        <section id="funcionamiento">
+            <h2><i class="fas fa-cogs"></i> 2. Cómo funciona ClassLab v1.0</h2>
+            <p>Acceso desde: <a href="https://classlab.app/login" target="_blank" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;"><i class="fas fa-external-link-alt"></i> https://classlab.app/login</a></p>
+            <p>El ingreso se realiza mediante número de celular + código de verificación (OTP). No requiere correo institucional previo.</p>
+
+            <!-- IMAGEN 2 ACTUALIZADA CON RUTA REAL -->
+            <img src="C:\Users\wilson.castellanosv\Downloads\imagenes\Interfaz_acceso.png" alt="Interfaz de Acceso ClassLab" class="actual-image">
+
+            <h3><i class="fas fa-list-ol"></i> Flujo de una sesión (5 Momentos):</h3>
+            
+            <div class="momentos-grid">
+                <div class="momento-card" onclick="this.classList.toggle('active')">
+                    <div class="momento-number">1</div>
+                    <div class="momento-content">
+                        <h4>Selección del nivel</h4>
+                        <p>Define el contexto pedagógico: preescolar, primaria o secundaria. Esta elección determina todo el escenario de la sesión.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card" onclick="this.classList.toggle('active')">
+                    <div class="momento-number">2</div>
+                    <div class="momento-content">
+                        <h4>Planeación de clase</h4>
+                        <p>Diseño de objetivos de aprendizaje, actividades y recursos. La IA ofrece retroalimentación inmediata sobre la planeación.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card" onclick="this.classList.toggle('active')">
+                    <div class="momento-number">3</div>
+                    <div class="momento-content">
+                        <h4>Aula virtual</h4>
+                        <p>Toma de decisiones en tiempo real ante comportamientos de estudiantes IA. Interacción textual e inmersiva básica.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card" onclick="this.classList.toggle('active')">
+                    <div class="momento-number">4</div>
+                    <div class="momento-content">
+                        <h4>Diálogo con el Director</h4>
+                        <p>Fernando Mejía (IA) analiza las decisiones, identifica fortalezas y áreas de mejora, propone estrategias de innovación.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card" onclick="this.classList.toggle('active')">
+                    <div class="momento-number">5</div>
+                    <div class="momento-content">
+                        <h4>Reflexión y cierre</h4>
+                        <p>El estudiante reflexiona sobre su experiencia. El sistema registra decisiones y desempeño para seguimiento.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="objetivos">
+            <h2><i class="fas fa-bullseye"></i> 3. Objetivos de esta guía</h2>
+            <p>Orientar a los docentes tutores en el acompañamiento pedagógico del simulador, promoviendo una experiencia formativa significativa para los estudiantes en práctica, articulada con los resultados de aprendizaje de los cursos y coherente con el estado actual de la herramienta.</p>
+            
+            <div class="info-box">
+                <i class="fas fa-lightbulb"></i>
+                <div>
+                    <strong>Objetivos específicos:</strong>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Explicar qué puede y qué no puede hacer ClassLab v1.0</li>
+                        <li>Orientar el acompañamiento antes, durante y después</li>
+                        <li>Proporcionar estrategias de integración al curso</li>
+                        <li>Ofrecer rúbrica de evaluación formativa</li>
+                        <li>Facilitar la lectura del Director Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultados">
+            <h2><i class="fas fa-trophy"></i> 4. Resultados de aprendizaje</h2>
+            <p>Competencias que desarrolla el estudiante-docente en ClassLab v1.0:</p>
+            
+             <!-- IMAGEN RA ACTUALIZADA CON RUTA REAL -->
+            <img src="C:\Users\wilson.castellanosv\Downloads\imagenes\Resultados de aprendizaje.jpeg" alt="Resultados de aprendizaje" class="actual-image">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Competencia</th>
+                            <th>Qué desarrolla en ClassLab</th>
+                            <th>Nivel Cognitivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Planeación pedagógica</strong></td>
+                            <td>Define objetivos, selecciona actividades y justifica recursos</td>
+                            <td><span class="tag tag-aplicacion">Aplicación</span> <span class="tag tag-evaluacion">Evaluación</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Toma de decisiones</strong></td>
+                            <td>Identifica situaciones y selecciona estrategias didácticas</td>
+                            <td><span class="tag tag-conocimiento">Conocimiento</span> <span class="tag tag-analisis">Análisis</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reflexión práctica</strong></td>
+                            <td>Describe decisiones y propone acciones de mejora</td>
+                            <td><span class="tag tag-sintesis">Síntesis</span> <span class="tag tag-analisis">Análisis</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gestión del clima</strong></td>
+                            <td>Identifica dinámicas y organiza acciones pedagógicas</td>
+                            <td><span class="tag tag-analisis">Análisis</span> <span class="tag tag-sintesis">Síntesis</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Innovación didáctica</strong></td>
+                            <td>Reconoce y organiza metodologías activas</td>
+                            <td><span class="tag tag-conocimiento">Conocimiento</span> <span class="tag tag-sintesis">Síntesis</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="orientaciones">
+            <h2><i class="fas fa-chalkboard-teacher"></i> 5. Orientaciones para el docente</h2>
+            <img src="C:\Users\wilson.castellanosv\Downloads\imagenes\An-Du-DES.png" alt="Antes-durannte-despues" class="actual-image">
+            <div class="accordion">
+                <div class="accordion-item active">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-clock"></i> ANTES: Preparación y contextualización</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="feature-list">
+                            <li>Presentar ClassLab como herramienta pedagógica intencional</li>
+                            <li>Aclarar el alcance actual (v1.0) y limitaciones técnicas</li>
+                            <li>Definir el propósito pedagógico de la sesión</li>
+                            <li>Activar saberes previos con preguntas orientadoras</li>
+                            <li>Promover metodologías activas según el contexto</li>
+                            <li>Recordar que el error es recurso de aprendizaje</li>
+                            <li>Verificar acceso al enlace</li>
+                        </ul>
+                        <div class="info-box" style="margin-top: 15px;">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Recomendación:</strong> Pida a cada estudiante formular un objetivo personal: <em>"En esta sesión quiero practicar _____ porque en mi práctica real me cuesta _____."</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-eye"></i> DURANTE: Acompañamiento y observación</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="feature-list">
+                            <li>Observar sin intervenir en las decisiones del estudiante</li>
+                            <li>Identificar estrategias elegidas y respuestas ante situaciones</li>
+                            <li>Registrar momentos de duda o bloqueo para retomar después</li>
+                            <li>Propiciar la reflexión sobre el proceso pedagógico</li>
+                            <li>Analizar nivel de participación e interacción</li>
+                        </ul>
+                        <div class="info-box warning-box" style="margin-top: 15px;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Foco del docente:</strong> No evaluar durante la sesión. La IA retroalimenta en tiempo real. El valor está en lo que pasa antes y después.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-comments"></i> DESPUÉS: Reflexión y retroalimentación</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="feature-list">
+                            <li>Abrir espacio de reflexión de 10-15 minutos</li>
+                            <li>Usar preguntas abiertas para profundizar</li>
+                            <li>Contrastar feedback de Fernando Mejía con percepción del estudiante</li>
+                            <li>Solicitar diario de campo o portafolio reflexivo</li>
+                            <li>Conectar simulación con práctica real</li>
+                            <li>Proponer ajuste concreto para próxima sesión</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-container">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <p class="image-placeholder-text">[ESPACIO PARA IMAGEN 3: Panel de Inicio Estudiante]</p>
+            </div>
+        </section>
+
+        <section id="integracion">
+            <h2><i class="fas fa-link"></i> 6. Integración al curso de práctica</h2>
+            <p>ClassLab v1.0 está diseñado para usarse de forma articulada con las actividades de los cursos de práctica. Se propone una frecuencia de <strong>una sesión por semana</strong>.</p>
+            
+            <div class="momentos-grid" style="margin-top: 25px;">
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--accent);"><i class="fas fa-book"></i></div>
+                    <div class="momento-content">
+                        <h4>Contextualización disciplinar</h4>
+                        <p>Antes de la sesión, indique al estudiante que piense su planeación desde su área específica. El simulador es el escenario; la disciplina, el contenido.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--success);"><i class="fas fa-undo"></i></div>
+                    <div class="momento-content">
+                        <h4>Error como insumo</h4>
+                        <p>Aproveche momentos donde el aula "se descontrola" para trabajar resiliencia pedagógica. El simulador permite equivocarse sin consecuencias.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--warning); color: #333;"><i class="fas fa-users"></i></div>
+                    <div class="momento-content">
+                        <h4>Co-constructores</h4>
+                        <p>Los estudiantes pueden proponer situaciones del aula que quisieran ver en el simulador. Esto genera sentido de agencia sobre la herramienta.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--primary);"><i class="fas fa-bridge"></i></div>
+                    <div class="momento-content">
+                        <h4>Conexión con práctica real</h4>
+                        <p>Establezca puentes explícitos: ¿Viste alguna situación parecida en tu escuela de práctica? Este contraste es el corazón del aprendizaje situado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="retroalimentacion">
+            <h2><i class="fas fa-comments"></i> 7. Retroalimentación Director (Fernando Mejía)</h2>
+            <p>La evaluación en el simulador es formativa. La IA brinda retroalimentación técnica; el docente complementa con una mirada pedagógica e integral.</p>
+            
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/xWqEPZqnB_g" title="Video Retroalimentación" allowfullscreen></iframe>
+            </div>
+            
+            <div class="info-box success-box">
+                <i class="fas fa-play-circle"></i>
+                <div>
+                    <strong>Video explicativo:</strong> Conoce cómo funciona la escala de valoración y la mirada pedagógica de Fernando Mejía, el agente de IA del simulador.
+                </div>
+            </div>
+        </section>
+
+        <section id="preguntas">
+            <h2><i class="fas fa-question-circle"></i> 8. Banco de preguntas orientadoras</h2>
+            <p>Las preguntas son la herramienta principal para potenciar el pensamiento pedagógico:</p>
+            
+            <div class="accordion">
+                <div class="accordion-item active">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-play-circle"></i> Activación de saberes (Antes)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul style="padding-left: 20px;">
+                            <li style="margin: 10px 0;">¿Cómo planearías una clase para un grupo que nunca has visto antes?</li>
+                            <li style="margin: 10px 0;">¿Qué harías si un estudiante se niega a participar desde el inicio?</li>
+                            <li style="margin: 10px 0;">¿Qué crees que es lo más difícil de gestionar un aula real?</li>
+                            <li style="margin: 10px 0;">¿Cuál es tu mayor miedo o duda frente a tu práctica docente?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-brain"></i> Reflexión profunda (Después)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul style="padding-left: 20px;">
+                            <li style="margin: 10px 0;">¿Qué decisión fue la más difícil dentro del simulador? ¿Qué criterio usaste?</li>
+                            <li style="margin: 10px 0;">¿Qué pasó cuando el aula se descontroló? ¿Cómo te sentiste?</li>
+                            <li style="margin: 10px 0;">¿Qué te sorprendió de la retroalimentación de Fernando Mejía?</li>
+                            <li style="margin: 10px 0;">¿Qué cambiarías en tu planeación si pudieras volver a empezar?</li>
+                            <li style="margin: 10px 0;">¿Qué aprendiste hoy sobre ti mismo como docente?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-exchange-alt"></i> Conexión con práctica presencial</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul style="padding-left: 20px;">
+                            <li style="margin: 10px 0;">¿Has vivido en tu práctica real alguna situación parecida?</li>
+                            <li style="margin: 10px 0;">¿Cómo reaccionaste en ese momento real comparado con el simulador?</li>
+                            <li style="margin: 10px 0;">¿Qué estrategia del simulador podrías probar esta semana?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-microscope"></i> Metacognición</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul style="padding-left: 20px;">
+                            <li style="margin: 10px 0;">¿Qué patrón notas en tus decisiones pedagógicas a lo largo de las sesiones?</li>
+                            <li style="margin: 10px 0;">¿En qué competencia sientes que has crecido más?</li>
+                            <li style="margin: 10px 0;">¿Cómo describirías tu estilo docente emergente?</li>
+                            <li style="margin: 10px 0;">Si le explicaras el simulador a un compañero, ¿qué le dirías?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard">
+            <h2><i class="fas fa-chart-line"></i> 9. Seguimiento: Director Dashboard</h2>
+            <p>ClassLab cuenta con un panel de seguimiento para monitorear el progreso de los estudiantes:</p>
+            
+            <div class="momentos-grid">
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--primary);"><i class="fas fa-users"></i></div>
+                    <div class="momento-content">
+                        <h4>Usuarios totales/activos</h4>
+                        <p>Número de estudiantes registrados y cuántos han completado al menos una simulación.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--secondary);"><i class="fas fa-filter"></i></div>
+                    <div class="momento-content">
+                        <h4>Embudo de conversión</h4>
+                        <p>Ciclo de vida: login, iniciada, terminada, retroalimentación. Identifica abandonos.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--accent);"><i class="fas fa-chart-pie"></i></div>
+                    <div class="momento-content">
+                        <h4>Mapa de competencias</h4>
+                        <p>Promedio del grupo en: alineación, creatividad, reflexión, colaboración, diversificación.</p>
+                    </div>
+                </div>
+                
+                <div class="momento-card">
+                    <div class="momento-number" style="background: var(--danger);"><i class="fas fa-traffic-light"></i></div>
+                    <div class="momento-content">
+                        <h4>Semáforo de estudiantes</h4>
+                        <p><span class="tag" style="background: #ffebee; color: #c62828;">Rojo</span> Atención urgente<br>
+                           <span class="tag" style="background: #fff8e1; color: #f57f17;">Amarillo</span> En proceso<br>
+                           <span class="tag" style="background: #e8f5e9; color: #2e7d32;">Verde</span> Satisfactorio</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-container">
+                <i class="fas fa-chart-line"></i>
+                <p class="image-placeholder-text">[ESPACIO PARA IMAGEN 4: Director Dashboard]</p>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-lightbulb"></i>
+                <div>
+                    <strong>Uso pedagógico del Dashboard:</strong>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Revisar el semáforo semanalmente para acompañamiento prioritario</li>
+                        <li>Usar el mapa de competencias para ajustar actividades del curso</li>
+                        <li>Descargar base de datos como evidencia para informes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="especiales">
+            <h2><i class="fas fa-exclamation-triangle"></i> 10. Atención a situaciones especiales</h2>
+            
+            <div class="accordion">
+                <div class="accordion-item active">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-headset"></i> Estudiante con bloqueo o frustración</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="feature-list">
+                            <li>Recordar que las dificultades son normales y mejoran con el uso frecuente</li>
+                            <li>Tener clara la expectativa: en v1.0 no se espera perfección</li>
+                            <li>Ofrecer sesión de acompañamiento individual si es necesario</li>
+                            <li>Preguntar: ¿qué fue lo que más te costó? ¿Qué necesitarías saber?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-wifi"></i> Dificultades de conectividad</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="feature-list">
+                            <li>Coordinar horarios alternativos y flexibles</li>
+                            <li>Sugerir uso desde bibliotecas o salas de cómputo</li>
+                            <li>Orientar sobre acceso mínimo: solo requiere celular y datos básicos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span><i class="fas fa-hands-helping"></i> Inclusión e interculturalidad</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="feature-list">
+                            <li>Invitar al estudiante a traer su perspectiva cultural</li>
+                            <li>Valorar el saber situado del estudiante como activo pedagógico</li>
+                            <li>Recolectar información para beneficios comunitarios</li>
+                            <li>Aprovechar comentarios para enriquecer diversidad de escenarios</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="glosario">
+            <h2><i class="fas fa-book"></i> 11. Glosario</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Término</th>
+                            <th>Definición</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ClassLab v1.0</strong></td>
+                            <td>Versión inicial (piloto) del simulador. Operativa, pero en proceso de ajuste continuo.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fernando Mejía / Director</strong></td>
+                            <td>Agente conversacional de IA que analiza el desempeño y genera retroalimentación personalizada.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OTP</strong></td>
+                            <td>Código de verificación de un solo uso enviado al celular del estudiante.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Director Dashboard</strong></td>
+                            <td>Panel de seguimiento: progreso, desempeño por competencias y alertas.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aula virtual simulada</strong></td>
+                            <td>Entorno con estudiantes IA. En v1.0 es básica; la inmersiva está en desarrollo.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aprendizaje situado</strong></td>
+                            <td>Enfoque pedagógico: conocimiento construido desde situaciones auténticas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="referencias">
+            <h2><i class="fas fa-bookmark"></i> 12. Referencias</h2>
+            <ul style="padding-left: 20px; line-height: 2;">
+                <li>Vargas, E. G. (2024). Reshaping education in the era of artificial intelligence.</li>
+                <li>Vargas, E. G. (2025). Integración del aprendizaje situado y la IA en la educación.</li>
+                <li>Bloom, B. S. (1956). Taxonomy of educational objectives.</li>
+                <li>Kolb, D. A. (1984). Experiential learning.</li>
+                <li>Schon, D. A. (1983). The reflective practitioner.</li>
+                <li>Lave, J., & Wenger, E. (1991). Situated learning.</li>
+            </ul>
+            
+            <div class="info-box success-box" style="margin-top: 30px;">
+                <i class="fas fa-heart"></i>
+                <div>
+                    <strong>Una nota final para el docente tutor:</strong><br>
+                    ClassLab v1.0 es una herramienta en construcción. Usted también es parte de ese proceso. Sus observaciones, dificultades y sugerencias son insumos valiosos para co-construir una herramienta que beneficiará a muchos estudiantes.
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 40px; color: var(--text-light);">
+            <p>&copy; 2026 UNIMINUTO | ClassLab Versión 1.0 - Fase Piloto</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                <i class="fas fa-graduation-cap"></i> Educación de calidad al alcance de todos
+            </p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+            
+            // Back to top button
+            const backToTop = document.getElementById("backToTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTop.classList.add("visible");
+            } else {
+                backToTop.classList.remove("visible");
+            }
+            
+            // Active navigation
+            updateActiveNav();
+        };
+
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    // Close sidebar on mobile
+                    document.getElementById('sidebar').classList.remove('active');
+                }
+            });
+        });
+
+        // Accordion
+        function toggleAccordion(element) {
+            const item = element.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.accordion-item').forEach(acc => {
+                acc.classList.remove('active');
+            });
+            
+            // Open clicked if wasn't active
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Search functionality
+        function searchContent() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    section.style.display = '';
+                    if (filter.length > 2) {
+                        section.style.border = '2px solid var(--secondary)';
+                    } else {
+                        section.style.border = 'none';
+                    }
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // Update active navigation
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.sidebar a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (window.innerWidth <= 968 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(20px)";
+            section.style.transition = "all 0.6s ease-out";
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
